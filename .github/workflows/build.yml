@@ -1,0 +1,115 @@
+name: CI/CD Ionic
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+      checks: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Linting
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Test
+        run: npm run test:ci 
+
+      - name: Build
+        run: npm run build -- --base-href /${{ github.event.repository.name }}/
+      
+      - name: Upload Artifacts (Build)
+        uses: actions/upload-artifact@v7
+        with:
+          name: www
+          path: www/
+
+      - name: Upload Test and Coverage Results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: coverage/
+
+      - name: E2E Tests (Cypress) 🧪
+        uses: cypress-io/github-action@v7
+        with:
+          start: npx ionic serve
+          wait-on: 'http://localhost:8100'
+          browser: chrome
+
+      - name: Upload Cypress Screenshots/Videos
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  reporting:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download Artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@v4
+        continue-on-error: true
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "artifacts/coverage/eslint-result.json"
+
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        with:
+          artifact: coverage
+          name: Karma Tests
+          path: 'test-results/test-results.xml'
+          reporter: java-junit
+      
+      - name: Build
+        run: npm run build -- --base-href /${{ github.event.repository.name }}/
+
+      - name: Deploy to GitHub Pages 🚀
+        if: github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: www 
+          branch: gh-pages

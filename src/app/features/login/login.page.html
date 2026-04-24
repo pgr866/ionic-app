@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Acceso al Sistema</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-centered-content ion-padding-top">
+    <div class="ion-text-center ion-margin-bottom">
+      <ion-icon name="person-outline" color="primary" class="font-size-64"></ion-icon>
+      <h1><strong>Iniciar sesión</strong></h1>
+    </div>
+
+    <ion-item button="true" class="ion-margin-bottom no-border">
+      <ion-label position="stacked">Usuario</ion-label>
+      <ion-input type="text" placeholder="admin@ejemplo.com"></ion-input>
+      <ion-icon slot="start" name="person-outline" class="margin-block-auto"></ion-icon>
+    </ion-item>
+
+    <ion-item button="true" class="ion-margin-bottom no-border">
+      <ion-label position="stacked">Contraseña</ion-label>
+      <ion-input type="password" placeholder="********"></ion-input>
+      <ion-icon slot="start" name="lock-closed-outline" class="margin-block-auto"></ion-icon>
+    </ion-item>
+
+    <div class="small-centered-button">
+      <ion-button expand="block" (click)="onLogin()">
+        Entrar
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

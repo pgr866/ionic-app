@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/reservations"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nueva Reserva</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-centered-content">
+    <h2 class="ion-text-center">Datos de la Reserva</h2>
+    
+    <ion-item button="true" class="ion-margin-bottom no-border">
+      <ion-label position="stacked">Nombre de la Reserva</ion-label>
+      <ion-input type="text" placeholder="Ej: Reunión de equipo"></ion-input>
+    </ion-item>
+
+    <ion-item button="true" class="ion-margin-bottom no-border">
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-input type="text" placeholder="Breve descripción..."></ion-input>
+    </ion-item>
+
+    <div class="small-centered-button">
+      <ion-button expand="block" color="primary" (click)="confirmAndGoBack()">
+        Crear reserva
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

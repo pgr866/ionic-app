@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Products</ion-title>
+    <ion-buttons slot="end" class="ion-margin-end">
+      <ion-button (click)="logout()" class="bold-icon">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="padding-inline-50">
+    <app-generic-list [items]="products"></app-generic-list>
+  </div>
+</ion-content>

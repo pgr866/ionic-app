@@ -1,0 +1,17 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Reservations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="padding-inline-50">
+    <app-generic-list [items]="reservations"></app-generic-list>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="custom-fab">
+    <ion-fab-button (click)="goToCreateReservation()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

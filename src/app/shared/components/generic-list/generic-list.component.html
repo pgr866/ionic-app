@@ -1,0 +1,10 @@
+<ion-list>
+  @for (item of items; track item.id) {
+    <ion-item [button]="!!basePath" [detail]="!!basePath" [routerLink]="basePath ? ['/', basePath, item.id] : null" [attr.lines]="'full'">
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+      </ion-label>
+    </ion-item>
+  }
+</ion-list>
